@@ -15,6 +15,8 @@ int main(int argc, char *argv[])
 #endif
     QGuiApplication app(argc, argv);
 
+    QCoreApplication::setOrganizationName("Jimbopython");
+    QCoreApplication::setApplicationName("say_yes");
     QQuickStyle::setStyle("Fusion");
 
     QuestionReader questionReader;

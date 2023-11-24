@@ -37,7 +37,7 @@ QuestionReader::QuestionReader()
     QString val;
     QFile file;
 
-    file.setFileName("test.json");
+    file.setFileName(".questions.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     val = file.readAll();
     file.close();

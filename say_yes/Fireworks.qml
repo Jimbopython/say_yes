@@ -36,13 +36,17 @@ ParticleSystem {
 
         Emitter {
             id: burstEmitter
-            x: 400 ; y: 480
+            x: parent.width / 2 ; y: parent.height / 2
             group: "stage1"
-            emitRate: 1; lifeSpan: 1500;
+            emitRate: 1;
+            lifeSpan: 1500;
             size: 50; endSize: 10; sizeVariation: 30
             acceleration: PointDirection {y: 100}
-            velocity: AngleDirection{angle: 270; magnitude: 400;
-                angleVariation: 40; magnitudeVariation: 50}
+            velocity: AngleDirection{
+                angle: 270;
+                magnitude: 400;
+                angleVariation: 40;
+                magnitudeVariation: 50}
         }
 
         ImageParticle {
@@ -53,11 +57,15 @@ ParticleSystem {
 
         TrailEmitter {
             group: "stage2"; follow: "stage1"
-            emitRatePerParticle: 100; lifeSpan: 2400
+            emitRatePerParticle: 100;
+            lifeSpan: 2400
             lifeSpanVariation: 400
             acceleration: PointDirection {y: -60 }
-            velocity: AngleDirection{angle: 270; magnitude: 40;
-                angleVariation: 22; magnitudeVariation: 5}
+            velocity: AngleDirection{
+                angle: 270;
+                magnitude: 40;
+                angleVariation: 22;
+                magnitudeVariation: 5}
             size: 16; endSize: 0; sizeVariation: 8;
         }
 
