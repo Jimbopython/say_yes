@@ -15,11 +15,17 @@
 ******************************************************************************/
 
 import QtQuick.Particles 2.12
+import QtMultimedia
 
 ParticleSystem {
         id: particles
         anchors.fill: parent
         running: false
+
+        SoundEffect {
+            id:playSound
+            source: "qrc:/sound.wav"
+        }
 
         ImageParticle {
             groups: ["stage1"]

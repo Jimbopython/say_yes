@@ -1,6 +1,6 @@
 import QtQuick 2.15
-import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Window 2.15
 
 Window {
     id: mainWindow
@@ -15,7 +15,7 @@ Window {
         anchors.horizontalCenter: parent.horizontalCenter
         text: question
         color: "white"
-        font.pixelSize: 30
+        font.pointSize: 30
     }
 
     Text {
@@ -23,7 +23,7 @@ Window {
         anchors.horizontalCenter: parent.horizontalCenter
         y: yesButton.y / 2
         color: "white"
-        font.pixelSize: 20
+        font.pointSize: 20
     }
 
     Button {
@@ -32,7 +32,7 @@ Window {
         anchors.centerIn: parent
         height: 200
         width: 400
-        font.pixelSize: 100
+        font.pointSize: 100
         background: Rectangle {
             color: "greenyellow"
             radius: 20
@@ -40,6 +40,7 @@ Window {
 
         onClicked:
         {
+            settings.setChosen(true)
             yesButton.visible = false
             noButton.visible = false
             particles.running = true
@@ -101,6 +102,7 @@ Window {
         }
         onClicked:
         {
+            settings.setChosen(false)
             yesButton.enabled = false
             noButton.enabled = false
             quitTimer.start()
@@ -109,5 +111,4 @@ Window {
     Fireworks {
         id: particles
     }
-
 }

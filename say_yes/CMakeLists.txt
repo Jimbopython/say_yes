@@ -9,11 +9,15 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick QuickControls2 Multimedia)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick QuickControls2 Multimedia)
 
 set(PROJECT_SOURCES
-        main.cpp
+    main.cpp
+        settingsmanager.cpp
+        settingsmanager.h
+        questionreader.cpp
+        questionreader.h
         qml.qrc
 )
 
@@ -36,13 +40,12 @@ else()
     else()
         add_executable(say_yes
           ${PROJECT_SOURCES}
-          test.json
         )
     endif()
 endif()
 
 target_link_libraries(say_yes
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickControls2 Qt${QT_VERSION_MAJOR}::Multimedia)
 
 TARGET_COMPILE_DEFINITIONS(say_yes
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

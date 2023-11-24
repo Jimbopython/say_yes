@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>AlreadyChosen.qml</file>
         <file>Fireworks.qml</file>
+        <file>Question.qml</file>
+        <file>sound.wav</file>
     </qresource>
 </RCC>

@@ -1,69 +1,11 @@
-#include <QFile>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-
 #include <QGuiApplication>
 #include <QQmlContext>
 #include <QQmlApplicationEngine>
 #include <QtGlobal>
+#include <QQuickStyle>
 
-class QuestionReader : public QObject
-{
-    Q_OBJECT
-
-    QStringList m_changingParagraphs;
-    QString m_question;
-
-    void readChangingParagraphs(const QJsonObject& jsonObject)
-    {
-        const auto value = jsonObject.value(QString("changingParagraphs"));
-        if (!value.isArray())
-        {
-            // todo
-        }
-        const auto array = value.toArray();
-        for (const auto& val : array) {
-            m_changingParagraphs.append(val.toString());
-        }
-    }
-
-    void readQuestion(const QJsonObject& jsonObject)
-    {
-        const auto value = jsonObject.value(QString("mainQuestion"));
-        if (!value.isString())
-        {
-            // todo
-        }
-        m_question = value.toString();
-    }
-public:
-    QuestionReader()
-    {
-        QString val;
-        QFile file;
-
-        file.setFileName("test.json");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        val = file.readAll();
-        file.close();
-        QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
-        QJsonObject jsonObject = d.object();
-
-        readQuestion(jsonObject);
-        readChangingParagraphs(jsonObject);
-    }
-
-    QStringList getChangingParagraphs()
-    {
-        return m_changingParagraphs;
-    }
-
-    QString getQuestion()
-    {
-        return m_question;
-    }
-};
+#include "settingsmanager.h"
+#include "questionreader.h"
 
 
 int main(int argc, char *argv[])
@@ -73,15 +15,29 @@ int main(int argc, char *argv[])
 #endif
     QGuiApplication app(argc, argv);
 
+    QQuickStyle::setStyle("Fusion");
+
     QuestionReader questionReader;
     const auto paragraphs = questionReader.getChangingParagraphs();
     const auto question = questionReader.getQuestion();
 
+    SettingsManager settings;
+
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("paragraphs", paragraphs);
     engine.rootContext()->setContextProperty("question", question);
+    engine.rootContext()->setContextProperty("settings", &settings);
 
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    QUrl url;
+    if (settings.alreadyChoseOnce())
+    {
+        url.setUrl(QStringLiteral("qrc:/AlreadyChosen.qml"));
+    }
+    else
+    {
+        url.setUrl(QStringLiteral("qrc:/Question.qml"));
+    }
+
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
         &app, [url](QObject *obj, const QUrl &objUrl) {
             if (!obj && url == objUrl)
@@ -91,5 +47,3 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
-
-#include "main.moc"
